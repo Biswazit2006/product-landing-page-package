@@ -39,12 +39,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="s h-svh w-full overflow-hidden bg-muted/40 pb-2 ">
-      <SidebarProvider className="h-full min-h-0  " defaultOpen={false}>
+    <div className="h-svh w-full overflow-hidden bg-muted/40 pb-2">
+      <SidebarProvider className="h-full min-h-0" defaultOpen={false}>
         <AppSidebar navigation={navigation} />
-        <main className="min-w-0 flex-1 overflow-hidden">
+        <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <NavBar />
-          <div className="min-h-full w-full overflow-auto p-2 mt-2 rounded-lg ">
+          <div className="min-h-0 w-full flex-1 overflow-y-auto rounded-lg p-2 mt-2">
             {children}
           </div>
         </main>
