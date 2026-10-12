@@ -14,6 +14,7 @@ export interface Ivariant{
 
 // Define the structure for a product
 export interface IProduct {
+  id?: string | mongoose.Types.ObjectId;
   name: string;
   description: string;
   price: number;

@@ -8,6 +8,7 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
+  id?: mongoose.Schema.Types.ObjectId | string;
   customerId?: mongoose.Schema.Types.ObjectId | string;
   customerName: string;
   customerEmail?: string;

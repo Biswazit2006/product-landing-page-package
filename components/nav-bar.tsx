@@ -32,13 +32,6 @@ export default function NavBar() {
       <div className="w-[80%] flex justify-end gap-6">
         {/* Theme Tougle Button */}
         <ThemeToggle />
-        {/* The Shopping Cart */}
-        <Link
-          href={"/cart"}
-          className="w-auto h-auto p-2  relative hover:bg-foreground/20  rounded-full "
-        >
-          <ShoppingCart className="text-foreground" />
-        </Link>
         {/* Profile Dropdown */}
         <div>
           <DropdownMenu>
@@ -48,7 +41,6 @@ export default function NavBar() {
                   <AvatarImage
                     src="https://github.com/shadcn.png"
                     alt="@shadcn"
-                    className=""
                   />
                   <AvatarFallback>CN</AvatarFallback>
                   <AvatarBadge className="bg-white text-black text-2xl">
