@@ -1,21 +1,37 @@
-import {
-  BarChart3,
-  LayoutDashboard,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import NavBar from "@/components/nav-bar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar";
+import { ChartLine, LayoutDashboard, PackageSearch, ShoppingCartMinus, UsersRound } from "lucide-react";
 
-const navigation = [
-  { label: "Overview", href: "/overview", icon: LayoutDashboard },
-  { label: "Orders", href: "/orders", icon: ShoppingCart },
-  { label: "Customers", href: "/customers", icon: Users },
-  { label: "Analytics", href: "/analytics", icon: BarChart3 },
-];
+const navigation =  [
+    {
+      label: "Overview",
+      href: "/overview",
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Orders",
+      href: "/orders",
+      icon: ShoppingCartMinus,
+    },
+    {
+      label: "Analytics",
+      href: "/analytics",
+      icon: ChartLine,
+    },
+    {
+      label: "Product",
+      href: "/product",
+      icon: PackageSearch,
+    },
+    {
+      label: "Users",
+      href: "/users",
+      icon: UsersRound,
+    },
+  ]
 
 export default function AdminLayout({
   children,
