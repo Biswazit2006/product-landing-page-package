@@ -21,7 +21,7 @@ import {
   TruckElectric,
   X,
 } from "lucide-react";
-import React from "react";
+import {motion} from "motion/react";
 
 export default function OrderCard({
   className,
@@ -36,6 +36,9 @@ export default function OrderCard({
     customerPhone: "01354215854",
     customerAddress: "Ranibazar, Rajshahi",
     status: "delivered",
+    createdAt: new Date("2023-01-01"),
+    items: [],
+    
   };
   let statusBgColor = "bg-primary";
   switch (orderData.status) {
@@ -56,6 +59,11 @@ export default function OrderCard({
       break;
   }
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
     <Card className={className}>
       <div className=" w-full flex justify-between items-center">
               <Badge
@@ -109,5 +117,6 @@ export default function OrderCard({
       {/* Action buttons Popup */}
 
     </Card>
+    </motion.div>
   );
 }

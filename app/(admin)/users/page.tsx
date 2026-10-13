@@ -21,7 +21,7 @@ export default async function CustomersPage() {
     </Card>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {
-        users.map((user) => (
+        users.map((user:IUser) => (
           <UserCard className=" p-4 space-y-2 flex flex-row justify-center items-center gap-2 rounded-lg" key={user.id} user={user} />
         ))
       }

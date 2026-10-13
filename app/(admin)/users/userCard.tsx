@@ -5,9 +5,15 @@ import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitl
 import { IUser } from "@/model/userModel";
 import { EllipsisVertical, ShieldUser, User, UserStar } from "lucide-react";
 import Image from "next/image";
+import * as motion from "motion/react-client";
 
 export default function UserCard({ className,user }: { className?: string,user:IUser }) {
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
         <Card className={className}>
       <div className="h-full flex justify-center items-center ">
       <Image src={user?.avatar || "https://github.com/shadcn.png"} alt="User Image" width={100} height={100}  className="rounded-lg"/>
@@ -58,5 +64,6 @@ export default function UserCard({ className,user }: { className?: string,user:I
 </Popover>
       </div>
     </Card>
+    </motion.div>
   )
 }

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IUser {
-    id?:mongoose.ObjectId | string;
+    id:mongoose.ObjectId | string;
     name: string;
     email?: string;
     phone?: string;
