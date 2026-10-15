@@ -4,7 +4,6 @@ import OrderForm from "@/components/order-form";
 import TestimonialCarosel from "@/components/testimonial-carosel";
 import { Aladin, Lemonada, Itim } from "next/font/google";
 import Image from "next/image";
-import { MotionWrapper } from '@/components/MotionWrapper';
 
 
 const aladin = Aladin({ subsets: ["latin"], weight: "400" });

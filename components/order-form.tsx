@@ -56,7 +56,7 @@ export default function OrderForm() {
       <h4 className={`${lemonada.className} text-black text-xl lg:text-4xl font-bold`}>
         Order Now
       </h4>
-      <p className={`${itim.className} text-black text-xs lg:text-lg`}>
+      <p className={`${itim.className} text-black text-xs lg:text-lgs`}>
         Experience the elegance and Fossil on your wrist.Place your order today
         and enjoy free worldwide shipping.
       </p>
@@ -152,7 +152,7 @@ export default function OrderForm() {
       swipeDirection={isMobile ? "down" : "right"}
     >
       <DrawerTrigger render={      <button
-        className={`bg-[#D0CECF] text-black px-10 py-2 rounded-full text-2xl ${itim.className}`}
+        className={`bg-[#D0CECF] text-black w-full lg:w-auto lg:px-10 py-2 lg:py-2 rounded-full lg:text-2xl ${itim.className}`}
       >
         Order Now!
       </button>} />
