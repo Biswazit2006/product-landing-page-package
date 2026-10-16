@@ -44,7 +44,7 @@ export function AppSidebar({ navigation }: AppSidebarProps) {
   {navigation.map((project) => (
     <SidebarMenuItem key={project.label} >
       <SidebarMenuButton render={<Link href={project.href} />} className="hover:bg-foreground/20">
-        <project.icon  width="30px" height="30px" />
+        <project.icon   />
         <span>{project.label}</span>
       </SidebarMenuButton>
     </SidebarMenuItem>
