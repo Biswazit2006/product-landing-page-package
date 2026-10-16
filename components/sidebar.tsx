@@ -1,42 +1,19 @@
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  ChartLine,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  LayoutDashboard,
   LifeBuoy,
-  Map,
-  PackageSearch,
-  PieChart,
   Settings,
-  Settings2,
-  ShoppingCartMinus,
-  SquareTerminal,
 } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { ChevronRight, type LucideIcon } from "lucide-react"
+
 import Link from "next/link";
 
 interface AppSidebarProps {
@@ -75,28 +52,6 @@ export function AppSidebar({ navigation }: AppSidebarProps) {
 </SidebarMenu>
     </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-sidebar-border">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              render={<Link href="/settings" />}
-              tooltip="Settings"
-            >
-              <Settings />
-              <span>Settings</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              render={<Link href="/help" />}
-              tooltip="Help and support"
-            >
-              <LifeBuoy />
-              <span>Help and support</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
   );
 }

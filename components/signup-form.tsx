@@ -179,7 +179,7 @@ export function SignupForm({
                 <Button
                   type="submit"
                   className="font-mono bg-primary text-primary-foreground hover:bg-primary/90"
-                  disabled={loading}s
+                  disabled={loading}
                 >
                   {loading ? "Creating account..." : "Sign Up"}
                 </Button>
