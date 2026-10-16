@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IUser {
-    id:mongoose.ObjectId | string;
+    id: string;
     name: string;
     email?: string;
     phone?: string;
@@ -19,9 +19,16 @@ const userSchema = new mongoose.Schema<IUser>({
     phone: { type: String, required: false },
     password: { type: String, required: true },
     role: { type: String, enum: ["customer", "admin", "moderator"], default: "customer" },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-});
+    cart: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart",
+      },
+    ],
+},{
+    timestamps: true,
+}
+);
 
 const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 export default User;

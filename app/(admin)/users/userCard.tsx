@@ -7,7 +7,7 @@ import { EllipsisVertical, ShieldUser, User, UserStar } from "lucide-react";
 import Image from "next/image";
 import * as motion from "motion/react-client";
 
-export default function UserCard({ className,user }: { className?: string,user:IUser }) {
+export default function UserCard({ className,user }: { className?: string,user: Omit<IUser, "password"> }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
