@@ -96,7 +96,9 @@ export default function OrderCard({
       }
       <p>Address:{order.customerAddress}</p>
       <p>District:{order.customerDistrict}</p>
-      <p>Order Date:{order.createdAt?.toLocaleDateString()}</p>
+      <p>
+  Order Date: {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A"}
+</p>
       <p>Payment Method:{order.paymentMethod}</p>
       <p>Payment Status:{order.paymentStatus}</p>
       <p>Status:{order.status}</p>

@@ -47,8 +47,8 @@ export async function POST(req:NextRequest) {
         paymentMethod:'cash_on_delivery',
         paymentStatus:'pending',
     })
-    // revalidateTag("orders")
-    revalidatePath("/orders");
+    revalidateTag("orders-tag",'max');
+    // revalidatePath("/orders");
     if(order){
     return NextResponse.json({ success: true, message: "Order received successfully", order }, { status: 200 });
     }
