@@ -3,11 +3,17 @@ import { connectDb } from "@/lib/connectMongoDb";
 import Order, { IOrder } from "@/model/orderModel";
 import OrderCard from "./order-card";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function CustomersPage() {
   let orders: IOrder[] = [];
   try {
     await connectDb();
     orders = await Order.aggregate([
+      {
+        $sort: { createdAt: -1 },
+      },
       {
         $project: {
           _id: 0,
@@ -25,7 +31,6 @@ export default async function CustomersPage() {
         },
       },
     ]);
-    console.log(orders)
   } catch (error) {
     console.error("Error connecting to database:", error);
   }
@@ -36,15 +41,13 @@ export default async function CustomersPage() {
         <p className="text-foreground font-mono">Manage your orders here.</p>
       </Card>
       <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {
-          orders.map((order) => (
-            <OrderCard
-              key={order.id?.toString()}
-              order={order}
-               className="flex flex-col gap-0.5 justify-center items-start p-4 font-mono"
-            />
-          ))
-        }
+        {orders.map((order) => (
+          <OrderCard
+            key={order.id?.toString()}
+            order={order}
+            className="flex flex-col gap-0.5 justify-center items-start p-4 font-mono"
+          />
+        ))}
       </div>
     </div>
   );
