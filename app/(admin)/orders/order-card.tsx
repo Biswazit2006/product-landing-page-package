@@ -1,13 +1,10 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Popover,
   PopoverContent,
-  PopoverDescription,
   PopoverHeader,
-  PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { IOrder } from "@/model/orderModel";
@@ -28,20 +25,10 @@ export default function OrderCard({
   order,
 }: {
   className?: string;
-  order: string;
+  order: IOrder;
 }) {
-  const orderData: IOrder = {
-    id: "skdj1002",
-    customerName: "John Doe",
-    customerPhone: "01354215854",
-    customerAddress: "Ranibazar, Rajshahi",
-    status: "delivered",
-    createdAt: new Date("2023-01-01"),
-    items: [],
-    
-  };
   let statusBgColor = "bg-primary";
-  switch (orderData.status) {
+  switch (order.status) {
     case "pending":
       statusBgColor = "bg-yellow-300";
       break;
@@ -70,12 +57,12 @@ export default function OrderCard({
         variant="secondary"
         className={`flex text-foreground ${statusBgColor} items-center gap-2 `}
       >
-        {orderData.status === "pending" && <Loader />}
-        {orderData.status === "processing" && <RefreshCcw />}
-        {orderData.status === "shipped" && <TruckElectric />}
-        {orderData.status === "delivered" && <PackageCheck />}
-        {orderData.status === "cancelled" && <CircleX />}
-        {orderData.status}
+        {order.status === "pending" && <Loader />}
+        {order.status === "processing" && <RefreshCcw />}
+        {order.status === "shipped" && <TruckElectric />}
+        {order.status === "delivered" && <PackageCheck />}
+        {order.status === "cancelled" && <CircleX />}
+        {order.status}
       </Badge>
               <Popover>
         <PopoverTrigger
@@ -101,15 +88,18 @@ export default function OrderCard({
         </PopoverContent>
       </Popover>
       </div>
-      <p className="font-bold">Customer:John Doe</p>
-      <p>Id:skdj1002</p>
-      <p>Number:01354215854</p>
-      <p>Email:john.doe@example.com</p>
-      <p>Address:Ranibazar ,Rajshahi</p>
-      <p>Order Date:2023-01-01</p>
-      <p>Payment Method:Credit Card</p>
-      <p>Payment Status:Completed</p>
-      <p>Status:Pending</p>
+      <p className="font-bold">Customer:{order.customerName}</p>
+      <p>Id:{order.id?.toString()}</p>
+      <p>Number:{order.customerPhone}</p>
+      {
+        order.customerEmail && <p>Email:{order.customerEmail}</p>
+      }
+      <p>Address:{order.customerAddress}</p>
+      <p>District:{order.customerDistrict}</p>
+      <p>Order Date:{order.createdAt?.toLocaleDateString()}</p>
+      <p>Payment Method:{order.paymentMethod}</p>
+      <p>Payment Status:{order.paymentStatus}</p>
+      <p>Status:{order.status}</p>
       <p>
         Total Price:<span className="font-bold text-blue-950">$100.00</span>
       </p>

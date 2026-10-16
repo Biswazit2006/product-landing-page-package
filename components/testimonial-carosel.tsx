@@ -101,7 +101,7 @@ export default function TestimonialCarosel() {
                 </CardContent>
               </Card> */}
               <Card className="w-full h-full flex flex-col gap-4 items-center justify-center p-6">
-                <p className={`text-center text-xs lg:text-lg${lemonada.className}`}>{`"${testimonial.testimonial}"`}</p>
+                <p className={`text-center text-xs lg:text-lg ${lemonada.className}`}>{`"${testimonial.testimonial}"`}</p>
                 <p className={`font-mono font-bold text-xs lg:text-lg`}>{testimonial.name}</p>
               </Card>
             </div>

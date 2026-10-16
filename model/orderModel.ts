@@ -8,18 +8,20 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-  id?: mongoose.Schema.Types.ObjectId | string;
+  id: mongoose.Schema.Types.ObjectId | string;
   customerId?: mongoose.Schema.Types.ObjectId | string;
   customerName: string;
   customerEmail?: string;
   customerPhone: string;
   customerAddress: string;
+  customerDistrict: string;
+  variant?: string;
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
   createdAt?: Date;
   updatedAt?: Date;
   paymentMethod?: "credit_card" | "bkash" | "nogod" | "cash_on_delivery";
   paymentStatus?: "pending" | "paid" | "failed" | "refunded";
-  items: IOrderItem[];
+  items?: IOrderItem[];
 }
 
 const orderSchema = new mongoose.Schema<IOrder>({
@@ -42,18 +44,17 @@ const orderSchema = new mongoose.Schema<IOrder>({
     type: String,
     required: true,
   },
+  customerDistrict: {
+    type: String,
+    required: true,
+  },
+  variant: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
     default: "pending",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
   },
   paymentMethod: {
     type: String,
@@ -83,6 +84,8 @@ const orderSchema = new mongoose.Schema<IOrder>({
       },
     },
   ],
+}, {
+  timestamps: true,
 });
 
 const Order =
