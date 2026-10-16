@@ -1,5 +1,6 @@
 import { connectDb } from "@/lib/connectMongoDb";
 import Order, { IOrder } from "@/model/orderModel";
+import { revalidatePath } from "next/cache";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -47,6 +48,7 @@ export async function POST(req:NextRequest) {
         paymentStatus:'pending',
     })
     // revalidateTag("orders")
+    revalidatePath("/orders");
     if(order){
     return NextResponse.json({ success: true, message: "Order received successfully", order }, { status: 200 });
     }

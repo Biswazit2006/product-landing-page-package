@@ -3,8 +3,8 @@ import { connectDb } from "@/lib/connectMongoDb";
 import Order, { IOrder } from "@/model/orderModel";
 import OrderCard from "./order-card";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export default async function CustomersPage() {
   let orders: IOrder[] = [];
