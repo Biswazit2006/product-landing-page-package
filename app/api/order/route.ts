@@ -27,7 +27,7 @@ export async function POST(req:NextRequest) {
     if (!variant || variant.trim() === "") {
         return NextResponse.json({ success: false, message: "Variant is required" }, { status: 400 });
     }
-    const payload:Omit<IOrder,'id'> = {
+    const payload:Omit<IOrder,'id' | 'status'> = {
         customerName: name,
         customerPhone: phone,
         customerAddress: address,

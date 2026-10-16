@@ -8,7 +8,6 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -116,7 +115,7 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <FieldGroup >
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Create an account</h1>
@@ -180,8 +179,7 @@ export function SignupForm({
                 <Button
                   type="submit"
                   className="font-mono bg-primary text-primary-foreground hover:bg-primary/90"
-                  disabled={loading}
-                  onClick={(e) => handleSubmit(e)}
+                  disabled={loading}s
                 >
                   {loading ? "Creating account..." : "Sign Up"}
                 </Button>
