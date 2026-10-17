@@ -3,13 +3,13 @@ import { connectDb } from "@/lib/connectMongoDb";
 import Order, { IOrder } from "@/model/orderModel";
 import OrderCard from "./order-card";
 import { getCachedOrders } from "@/lib/getOrder";
+import OrderCardList from "./order-card-list";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function CustomersPage() {
   const orders: IOrder[] = await getCachedOrders();
-  console.log(orders)
 
   // try {
   //   await connectDb();
@@ -44,13 +44,7 @@ export default async function CustomersPage() {
         <p className="text-foreground font-mono">Manage your orders here.</p>
       </Card>
       <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {orders.map((order) => (
-          <OrderCard
-            key={order.id?.toString()}
-            order={order}
-            className="flex flex-col gap-0.5 justify-center items-start p-4 font-mono"
-          />
-        ))}
+        <OrderCardList />
       </div>
     </div>
   );
