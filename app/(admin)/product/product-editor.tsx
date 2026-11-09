@@ -7,16 +7,8 @@ import { IProduct } from "@/model/productModel";
 import { CirclePlus, RotateCwClock, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
-export default function ProductEditor() {
-  const [product, setProduct] = useState<
-    Omit<IProduct, "id" | "createdAt" | "updatedAt">
-  >({
-    name: "",
-    price: 0,
-    variants: [],
-    stock: 0,
-    deliveryCharge: 0,
-  });
+export default function ProductEditor({ theProduct }: { theProduct:IProduct }) {
+  const [product, setProduct] = useState<IProduct>(theProduct);
   const [variantInput, setVariantInput] = useState<string>("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,20 +42,6 @@ export default function ProductEditor() {
     }
   };
 
-  //get product data from the server when the component mounts
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const response = await fetch("/api/product");
-        const data = await response.json();
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      }
-    }
-    fetchProduct();
-  }, []);
-
   return (
     <div className="w-full p-2 rounded-lg font-mono box-border">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
@@ -72,7 +50,7 @@ export default function ProductEditor() {
             <FieldLabel htmlFor="fieldgroup-name">Product Name</FieldLabel>
             <Input
               id="product-name"
-              placeholder="Jordan Lee"
+              placeholder="Product Name"
               className="w-full font-mono"
               value={product.name}
               onChange={(e) => setProduct({ ...product, name: e.target.value })}

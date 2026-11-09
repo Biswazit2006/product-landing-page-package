@@ -43,9 +43,8 @@ export default async function CustomersPage() {
         <h1 className="text-2xl text-foreground font-bold font-sans">Orders</h1>
         <p className="text-foreground font-mono">Manage your orders here.</p>
       </Card>
-      <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      
         <OrderCardList />
       </div>
-    </div>
   );
 }

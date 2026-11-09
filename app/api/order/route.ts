@@ -8,7 +8,16 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     await connectDb();
+    const { searchParams } = new URL(req.url);
+    const status = searchParams.get('status');
+    const matchQuery: any = {};
+    if (status && status !== 'All') {
+      matchQuery.status = status;
+    }
     const orders = await Order.aggregate([
+      {
+        $match: matchQuery
+      },
       {
         $sort: { createdAt: -1 },
       },
