@@ -4,10 +4,15 @@ import Product from "@/model/productModel";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET: Fetch for product by id
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest) {
     try {
         connectDb();
-        const product = await Product.findById(params.id);
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get("id");
+        if (!id) {
+            return NextResponse.json({ success: false, message: "Product ID is required" }, { status: 400 });
+        }
+        const product = await Product.findById(id);
         if (!product) {
             return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
         }
@@ -34,12 +39,18 @@ export async function POST(request: NextRequest) {
 }
 
 // PUT: Update an existing product
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest) {
     try {
         connectDb();
         checkAuth(request, ["admin"]);
+
         const body = await request.json();
-        const updatedProduct = await Product.findByIdAndUpdate(params.id, body, { new: true });
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get("id");
+        if (!id) {
+            return NextResponse.json({ success: false, message: "Product ID is required" }, { status: 400 });
+        }
+        const updatedProduct = await Product.findByIdAndUpdate(id, body, { new: true });
         if (!updatedProduct) {
             return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
         }
@@ -51,11 +62,16 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE: Delete a product
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest) {
     try {
         connectDb();
         checkAuth(request, ["admin"]);
-        const deletedProduct = await Product.findByIdAndDelete(params.id);
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get("id");
+        if (!id) {
+            return NextResponse.json({ success: false, message: "Product ID is required" }, { status: 400 });
+        }
+        const deletedProduct = await Product.findByIdAndDelete(id);
         if (!deletedProduct) {
             return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
         }

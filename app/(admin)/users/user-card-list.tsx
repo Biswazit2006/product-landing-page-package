@@ -13,7 +13,7 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const roles: Omit<IRole, "All">[] = ["admin", "moderator", "customer", "All"];
+const roles: (IRole | "All")[] = ["admin", "moderator", "customer", "All"];
 
 export default function UserCardList() {
   const router = useRouter();
@@ -78,9 +78,9 @@ export default function UserCardList() {
   return (
     <>
       <div className="flex w-full justify-end items-center gap-2">
-        {roles.map((role) => (
+        {roles.map((role, index) => (
           <Badge
-            key={role}
+            key={index}
             className="px-4 py-2 font-mono cursor-pointer"
             variant={currentRole === role ? "default" : "secondary"}
             onClick={() => handleFilter(role)}
