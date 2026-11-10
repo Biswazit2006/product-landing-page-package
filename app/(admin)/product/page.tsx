@@ -6,7 +6,7 @@ import { connectDb } from '@/lib/connectMongoDb';
 
 
 export default async function page() {
-  connectDb();
+  await connectDb();
   const product  = await Product.aggregate([
           {
         $sort: { createdAt: -1 },
