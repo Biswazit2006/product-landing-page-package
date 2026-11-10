@@ -4,6 +4,7 @@ import "./globals.css";
 import { StoreProvider } from "@/redux/store-provider";
 import { Toaster } from "@/components/ui/toast";
 import { ThemeProvider } from "@/components/theme-provider";
+import TanStackProviders from "@/components/tankstack-providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,10 @@ export default function RootLayout({
         <StoreProvider>
           <ThemeProvider>
             <Toaster />
-            {children}
+            <TanStackProviders>
+              {children}
+            </TanStackProviders>
+            
             <Toaster />
           </ThemeProvider>
         </StoreProvider>

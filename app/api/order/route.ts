@@ -1,6 +1,4 @@
 import { connectDb } from "@/lib/connectMongoDb";
-import { getCachedOrders } from "@/lib/getOrder";
-import { orderEvents } from "@/lib/orderEvents";
 import Order, { IOrder } from "@/model/orderModel";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,10 +8,20 @@ export async function GET(req: NextRequest) {
     await connectDb();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
+    const searchTerm = searchParams.get('search');
+
+    // Making the query
     const matchQuery: any = {};
     if (status && status !== 'All') {
       matchQuery.status = status;
     }
+if (searchTerm) {
+      matchQuery.$or = [
+        { customerName: { $regex: searchTerm, $options: 'i' } },
+        { customerPhone: { $regex: searchTerm, $options: 'i' } }
+      ];
+    }
+    // Querying the database
     const orders = await Order.aggregate([
       {
         $match: matchQuery
@@ -50,6 +58,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// POST: Create a new order
 export async function POST(req: NextRequest) {
   try {
     await connectDb();
@@ -108,13 +117,6 @@ export async function POST(req: NextRequest) {
       paymentMethod: "cash_on_delivery",
       paymentStatus: "pending",
     });
-    orderEvents.emit("new-order", order);
-    if (order) {
-      return NextResponse.json(
-        { success: true, message: "Order received successfully", order },
-        { status: 200 },
-      );
-    }
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json(
