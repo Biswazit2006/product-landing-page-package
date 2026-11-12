@@ -8,17 +8,17 @@ import { Label } from "./ui/label";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
 import { Button } from "./ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "./ui/toast";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { CheckCircle2Icon, InfoIcon, LoaderIcon } from "lucide-react";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 const lemonada = Lemonada({ subsets: ["latin"], weight: "400" });
 const itim = Itim({ subsets: ["latin"], weight: "400" });
@@ -36,6 +36,7 @@ export default function OrderForm() {
     productName: "Fossil watch",
     total: 1999.99,
     quantity: 1,
+    website_url: "",
   });
   const [page, setPage] = useState<{
     isLoading: boolean;
@@ -49,6 +50,8 @@ export default function OrderForm() {
     message: null,
   });
 
+  const [deviceId, setDeviceId] = useState<string>("");
+
   const handleSubmitOrder = async () => {
     setPage({ isLoading: true, error: null, message: null, success: null });
     const datapayload = new FormData();
@@ -58,10 +61,13 @@ export default function OrderForm() {
     datapayload.append("email", formData.email);
     datapayload.append("address", formData.address);
     datapayload.append("variant", formData.variant);
+    datapayload.append("website_url", formData.website_url);
+    datapayload.append("deviceId", deviceId);
     try {
       const response = await fetch("/api/order", {
         method: "POST",
         body: datapayload,
+        credentials: "include",
       });
       const data = await response.json();
       if (data.success) {
@@ -125,6 +131,19 @@ export default function OrderForm() {
       [name]: value,
     }));
   };
+
+  useEffect(()=>{
+    const getFingerprint = async () => {
+      try{
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        setDeviceId(result.visitorId);
+      }catch(error){
+        console.log(error)
+      }
+    }
+    getFingerprint();
+  },[])
 
   return (
     <div className="w-full lg:w-2/3 flex flex-col justify-center items-start gap-2 lg:gap-4 px-4 lg:px-20">
@@ -235,6 +254,16 @@ export default function OrderForm() {
             name="address"
             value={formData.address}
             className="text-black placeholder:text-black"
+          />
+        </Field>
+        <Field className="hidden" >
+          <Input
+            id="website_url"
+            placeholder="Website URL"
+            onChange={handleInputChange}
+            name="website_url"
+            value={formData.website_url}
+            className="text-black placeholder:text-black hidden"
           />
         </Field>
       </FieldGroup>

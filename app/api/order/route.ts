@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/connectMongoDb";
-import Order, { IOrder } from "@/model/orderModel";
+import Order, { IOrder, ISecurityData } from "@/model/orderModel";
 import { NextRequest, NextResponse } from "next/server";
 
 // Get:
@@ -7,24 +7,24 @@ export async function GET(req: NextRequest) {
   try {
     await connectDb();
     const { searchParams } = new URL(req.url);
-    const status = searchParams.get('status');
-    const searchTerm = searchParams.get('search');
+    const status = searchParams.get("status");
+    const searchTerm = searchParams.get("search");
 
     // Making the query
     const matchQuery: any = {};
-    if (status && status !== 'All') {
+    if (status && status !== "All") {
       matchQuery.status = status;
     }
-if (searchTerm) {
+    if (searchTerm) {
       matchQuery.$or = [
-        { customerName: { $regex: searchTerm, $options: 'i' } },
-        { customerPhone: { $regex: searchTerm, $options: 'i' } }
+        { customerName: { $regex: searchTerm, $options: "i" } },
+        { customerPhone: { $regex: searchTerm, $options: "i" } },
       ];
     }
     // Querying the database
     const orders = await Order.aggregate([
       {
-        $match: matchQuery
+        $match: matchQuery,
       },
       {
         $sort: { createdAt: -1 },
@@ -43,6 +43,7 @@ if (searchTerm) {
           updatedAt: 1,
           paymentMethod: 1,
           paymentStatus: 1,
+          securityData: 1,
         },
       },
     ]);
@@ -99,6 +100,40 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+    // Honeypot Check
+    const website_url = formData.get("website_url") as string;
+    if (website_url.trim().length > 0) {
+      return NextResponse.json(
+        { success: false, message: "Spam Detected" },
+        { status: 400 },
+      );
+    }
+
+    const deviceId = formData.get("deviceId") as string;
+    if (!deviceId || deviceId.trim() === "") {
+      return NextResponse.json(
+        { success: false, message: "Device ID is required" },
+        { status: 400 },
+      );
+    }
+    // preparing security data
+    // Ip address extraction
+    const forwardedFor = req.headers.get("x-forwarded-for");
+    const ipAddress = forwardedFor
+      ? forwardedFor.split(",")[0].trim()
+      : "unknown";
+    const ipCity = req.headers.get("x-vercel-ip-city") || "Unknown";
+    const userAgent = req.headers.get("user-agent") || "";
+    const isMobile = /mobile|android|iphone|ipad/i.test(userAgent);
+    const deviceType = isMobile ? "Mobile" : "Desktop";
+    const securityData: ISecurityData = {
+      deviceFingerprint: deviceId,
+      ipAddress: ipAddress,
+      ipCity: ipCity,
+      browserOs: userAgent.slice(0, 100),
+      deviceType: deviceType,
+    };
+
     const payload: Omit<IOrder, "id" | "status"> = {
       customerName: name,
       customerPhone: phone,
@@ -116,7 +151,9 @@ export async function POST(req: NextRequest) {
       status: "pending",
       paymentMethod: "cash_on_delivery",
       paymentStatus: "pending",
+      securityData: securityData,
     });
+    return NextResponse.json({success: true, data: order},{ status: 201 });
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json(
